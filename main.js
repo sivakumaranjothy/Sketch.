@@ -3,6 +3,7 @@ quick_draw_data_set=["aircraft carrier","airplane","alarm clock","ambulance","an
 random_no=Math.floor((Math.random()*quick_draw_data_set.length)+1)
 Sketch=quick_draw_data_set[random_no]
 console.log("quick_draw_data_set");
+document.getElementById("sketch").innerHTML="Sketch To Be Drawn: "+Sketch;
 
 timer_counter=0;
 timer_check="";
@@ -16,21 +17,21 @@ function preload(){
 
 function check_Sketch(){
 timer_counter++;
-document.getElementById("Timer:").innerHTML="Timer: +timer_counter";
+document.getElementById("timer").innerHTML="Timer:" +timer_counter;
 console.log(timer_counter);
 if(timer_counter>400){
     timer_counter=0;
-    timer_counter="completed";
+    timer_check="completed";
 }
-if(timer_counter=="completed" || answer_holder=="set"){
+if(timer_check=="completed" || answer_holder=="set"){
     timer_check="";
     answer_holder="";
-    createCanvas();
+    updateCanvas();
 
 }
 }
 function draw(){
-    strokeWeight(0);
+    strokeWeight(13);
     stroke(0);
     if(mouseIsPressed){
         line(pmouseX,pmouseY,mouseX,mouseY);
@@ -39,13 +40,10 @@ function draw(){
     if(drawn_sketch==Sketch){
         answer_holder="set";
         score++;
-        document.getElementById("Score:").innerHTML;
+        document.getElementById("score").innerHTML="Score:"+score;
        
-    }
-    if(mouseIsPressed){
-        line(pmouseX,pmouseY,mouseX,mouseY);
-    }
-    }
+      }
+      }
     
     function classifyCanvas(){
         classifier.classify(canvas,gotResult);
@@ -58,22 +56,26 @@ function draw(){
         }
         console.log(results);
         drawn_sketch="Your Sketch"+results[0].label;
-        document.getElementById('label').innerHTML="label:"+results[0].label;
+        document.getElementById('sketch_name').innerHTML=" Your Sketch:"+results[0].label;
         document.getElementById('confidence').innerHTML="confidence:"+Math.round(results[0].confidence*100)+'%';
-        synth.speak(utterthis);
-        
+           }
 
 
-    }
-
-function createCanvas(){
-    background("white");
-}
 
 function setup(){
 canvas=createCanvas(280,280);
 canvas.center();
     background("white");
     canvas.mouseReleased(classifyCanvas);
+}
+
+
+
+function updateCanvas(){
+    background("white");
+    random_no=Math.floor((Math.random()*quick_draw_data_set.length)+1)
+Sketch=quick_draw_data_set[random_no]
+console.log("quick_draw_data_set");
+document.getElementById("sketch").innerHTML="Sketch To Be Drawn: "+Sketch;
 }
 
